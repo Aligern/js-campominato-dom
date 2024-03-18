@@ -57,3 +57,7 @@ nav {
 .ls-blue {
     background-color: rgb(24, 20, 230);
 }
+
+.ls-lose {
+    background-color: red;
+}
