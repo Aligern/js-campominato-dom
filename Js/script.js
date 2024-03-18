@@ -14,7 +14,7 @@ elBtnPlay.addEventListener('click', function() {
 
 // this function works on the cells inside our "mineField"
 function executeOnClick(cell) {
-    cell.classList.toggle('ls-blue');
+    cell.classList.add('ls-blue');
     // we print on console the number inside the cell we 'click' into:
     console.log(cell.textContent);
 };
@@ -26,15 +26,16 @@ function createGrid () {
     const cellCount = 100;
     // now we tell the machine how to create our cells
     for (let i = 0; i < cellCount; i++) {
-        const cell = document.createElement("div");
+        const cell = document.createElement("article");
+        
         // here we add to our cells the classes we want to give them:
         cell.classList.add("ls-cell","d-flex");
         // with cell.textContent we are telling the machine to print sequentially the text
-        cell.textContent = i + 1;
         cell.addEventListener('click', function() {
             executeOnClick(cell);
-            // here we will put
+            cell.textContent = i + 1;     
         });
         mineField.appendChild(cell);   
     }
 };
+
