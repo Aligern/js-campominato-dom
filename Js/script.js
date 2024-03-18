@@ -2,6 +2,7 @@
 
 // we create a variable to call our button from our index.html:
 let elBtnPlay = document.getElementById("startBtn");
+let cellsNumber;
 
 // this button will make the game start:
 elBtnPlay.addEventListener('click', function() {
@@ -9,8 +10,10 @@ elBtnPlay.addEventListener('click', function() {
     mineField.innerHTML = '';
     console.log('iniziamo a giocare!');
     createGrid();
-}
-);
+    const difficultySelect = document.getElementById("difficulty");
+    cellsNumber = parseInt(difficultySelect.value);
+    console.log(cellsNumber);
+});
 
 // this function works on the cells inside our "mineField"
 function executeOnClick(cell) {
@@ -22,15 +25,18 @@ function executeOnClick(cell) {
 //we do a function to create our grid into our "mineField" container:
 function createGrid () {
     // this constant calls our "mineField"
-    // here we define the number of cell we need:
-    const cellCount = 100;
-    // now we tell the machine how to create our cells
-    for (let i = 0; i < cellCount; i++) {
+    // 
+//now we tell the machine how to create our cells
+    for (let i = 0; i < cellsNumber; i++) {
         const cell = document.createElement("article");
-        
         // here we add to our cells the classes we want to give them:
-        cell.classList.add("ls-cell","d-flex");
-        // with cell.textContent we are telling the machine to print sequentially the text
+        if (cellsNumber === 81){
+            cell.classList.add("ls-cell-medium");
+        } else if (cellsNumber === 49) {
+            cell.classList.add("ls-cell-hard");
+        } else {
+            cell.classList.add("ls-cell");
+        }
         cell.addEventListener('click', function() {
             executeOnClick(cell);
             cell.textContent = i + 1;     
@@ -38,4 +44,3 @@ function createGrid () {
         mineField.appendChild(cell);   
     }
 };
-

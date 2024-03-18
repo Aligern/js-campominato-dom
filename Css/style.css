@@ -22,8 +22,8 @@ nav {
     flex-wrap: wrap;
 }
 .ls-cell {
-    width: 10%;
-    height: 50px;
+    width: calc(100% / 10);
+    height: calc(100% / 10);
     border: 1px solid white;
     display: flex;
     justify-content: center;
@@ -32,6 +32,31 @@ nav {
     font-weight: 600;
     color: white;
 }
+
+.ls-cell-medium {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    line-height: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+}
+
+.ls-cell-hard {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    line-height: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+}
+
 .ls-blue {
     background-color: rgb(24, 20, 230);
 }
