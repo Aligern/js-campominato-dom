@@ -9,10 +9,10 @@ elBtnPlay.addEventListener('click', function() {
     const mineField = document.getElementById("mineField");
     mineField.innerHTML = '';
     console.log('iniziamo a giocare!');
-    createGrid();
     const difficultySelect = document.getElementById("difficulty");
     cellsNumber = parseInt(difficultySelect.value);
     console.log(cellsNumber);
+    createGrid();
 });
 
 // this function works on the cells inside our "mineField"
@@ -43,4 +43,30 @@ function createGrid () {
         });
         mineField.appendChild(cell);   
     }
+};
+
+// we need to create a function to put some mines into our "mineField":
+
+// the AI must generate 16 random Numbers in the same range of the chosen difficulty: our mines. ATTENTION:**only one mine can be placed in a cell, so into our minesArray we need no repeated numbers.
+
+//we need a random number generator
+//this is our randomizer function:
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+};
+
+function generateUniqueRandomNumber (min,max,list) {
+    const blacklist = [
+        1,
+        3,
+        5,
+        7,
+        9,
+        11,
+        13
+    ];
+    let randomNumber;
+
+    
+
 };
