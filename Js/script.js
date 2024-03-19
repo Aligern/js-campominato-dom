@@ -13,11 +13,11 @@ let maxscore = 0;
 elBtnPlay.addEventListener('click', function() {
     const mineField = document.getElementById("mineField");
     mineField.innerHTML = '';
-    console.log('iniziamo a giocare!');
+   // console.log('iniziamo a giocare!');
     const difficultySelect = document.getElementById("difficulty");
     cellsNumber = parseInt(difficultySelect.value);
     console.log(cellsNumber);
-    let bombCount = parseInt(mineNumber)
+    let bombCount = parseInt(mineNumber);
     let bomb = getRndInteger (1,cellsNumber);
     console.log(bomb);
     blacklist = generateBomb (cellsNumber, bombCount);
@@ -97,7 +97,6 @@ function executeOnClick(cell,blacklist) {
         if(blacklist.includes(cellsNumber)) {
             cell.classList.add('ls-lose')
             gameOver=true;
-            cell.forEach(cell => {cell.removeEventListener('click', cellClickHandler)});
         } else {
             cell.classList.add('ls-blue')
             console.log(cell.textContent);
