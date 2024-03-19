@@ -1,55 +1,89 @@
-const list = [1,2,3,5,6,8,10];
+let gameOver = false;
 
-getRndmNumberUnique(1, 10, list);
-console.log(getRndmNumberUnique(1,10,list));
 
-function getRndmNumberUnique(min, max, list){
-    let isFound = false;
-    let randomInt;
-    //senza punto ! significa isFound === true?
-    //con punto ! significa isFound === false?
-    // isFound = !isFound
-
-    while(!isFound){
-        randomInt = getRndInteger(min, max);
-        if (!list.includes(randomInt)){
-            isFound = true;
+//this function works on the cells inside our "mineField"
+function executeOnClick(cell) {
+    cell.classList.add('ls-blue');
+    // we print on console the number inside the cell we 'click' into:
+    console.log(cell.textContent);
+};
+//we do a function to create our grid into our "mineField" container:
+function createGrid () {
+    // this constant calls our "mineField"
+    // here we define the number of cell we need:
+    const cellCount = 100;
+    // now we tell the machine how to create our cells
+    for (let i = 0; i < cellCount; i++) {
+//now we tell the machine how to create our cells
+    for (let i = 0; i < cellsNumber; i++) {
+        const cell = document.createElement("article");
+        // here we add to our cells the classes we want to give them:
+        cell.classList.add("ls-cell","d-flex");
+        // with cell.textContent we are telling the machine to print sequentially the text
+        if (cellsNumber === 81){
+            cell.classList.add("ls-cell-medium");
+        } else if (cellsNumber === 49) {
+            cell.classList.add("ls-cell-hard");
+        } else {
+            cell.classList.add("ls-cell");
         }
+        cell.addEventListener('click', function() {
+            executeOnClick(cell);
+            cell.textContent = i + 1;
+            if (!gameOver){
+                if(blacklist.includes(bomb)) {
+                    cell.classList.add('ls-lose')
+                    gameOver=true;
+                } else {
+                    cell.classList.add('ls-blue')
+                    console.log(textContent);
+                    score += 1;
+                    console.log(score);
+                    if (score === maxscore) {
+                        console.log('hai vinto!')
+                    }
+                }
+            }
+        }, {once:true});
+        mineField.appendChild(cell);
     }
-    return randomInt;
+    return cell;
 }
-
-
-
-
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
 };
 
+function endgame() {
+    const messageEnd = document.getElementById('result');
+    let message = `<h4>Il tuo punteggio è: ${score}</h4>`;
+    if (gameOver) {
+        gameOver = true;
+        message += 'hai perso, ritenta!';
+    } else {
+        score++;
+        Message.innerHTML = '';
+        if ( score === maxscore) {
+            message.innerHTML += 'hai vinto!';
+            gameOver=true;
+        }
+    }
+}
 
+// this is our bomb generator:
+function generateBombs(cellsNumber) {
+    let blacklist = [];
+    let counter = 0;
+    while (blacklist.length < mineNumber && counter < 100) {
+        let bomb = getRndInteger (1, cellsNumber);
+        if (!blacklist.includes(bomb)) {
+            blacklist.push(bomb);
+        }
+        counter++;
+    } 
+    console.log(blacklist);
 
-const blacklist = [
-    1,
-    3,
-    5,
-    7,
-    9,
-    11,
-    13
-];
+    return blacklist;
+};
 
-function generateUniqueRandomNumber (min,max,list) {
-    // this is our randomUniqueNumber
-    let randomNumber;
-    // this is our flag
-    let isFound = false;
-
-    //while our flag is false
-    while (isFound !== false) {
-        //we assign to randomNumber a value between our (min,max):
-        randomNumber = getRndInteger(min,max);
-        // if our randomNumber IS NOT CONTAINED inside our blacklist is found become isfound = true
-        if (!blacklist.includes(randomNumber)) {
-            isFound = true;
-    };
+// randomizer function
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
 };

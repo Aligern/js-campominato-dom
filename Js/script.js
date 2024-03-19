@@ -5,7 +5,9 @@ let elBtnPlay = document.getElementById("startBtn");
 let cellsNumber;
 let blacklist = [];
 let score = 0;
-
+const mineNumber = 16;
+let gameOver = false;
+let maxscore = 0;
 
 // this button will make the game start:
 elBtnPlay.addEventListener('click', function() {
@@ -15,31 +17,29 @@ elBtnPlay.addEventListener('click', function() {
     const difficultySelect = document.getElementById("difficulty");
     cellsNumber = parseInt(difficultySelect.value);
     console.log(cellsNumber);
-    const mineNumber = 16;
-   for (let i = 0; i < mineNumber; i++) {
-        blacklist = generateUniqueRandomNumber (1, 100, mineNumber);
-    };
+    let bombCount = parseInt(mineNumber)
+    let bomb = getRndInteger (1,cellsNumber);
+    console.log(bomb);
+    blacklist = generateBombs (bombCount, cellsNumber);
     console.log(blacklist);
     createGrid();
 });
 
-// this function works on the cells inside our "mineField"
-function executeOnClick(cell) {
-    cell.classList.add('ls-blue');
-    // we print on console the number inside the cell we 'click' into:
-    console.log(cell.textContent);
-};
-
 //we do a function to create our grid into our "mineField" container:
 function createGrid () {
-    let mineTrigger = false;
     // this constant calls our "mineField"
+    // here we define the number of cell we need:
+    const cellCount = 100;
+    let cell;
+    // now we tell the machine how to create our cells
+    for (let i = 0; i < cellCount; i++) {
     // 
 //now we tell the machine how to create our cells
-    for (let i = 0; i < cellsNumber; i++) {
+    for (let j = 0; j < cellsNumber; j++) {
         const cell = document.createElement("article");
-        // here we add to our cells the classes we want to give them based on the difficulty:
-        mineField.appendChild(cell);
+        // here we add to our cells the classes we want to give them:
+        cell.classList.add("ls-cell","d-flex");
+        // with cell.textContent we are telling the machine to print sequentially the text
         if (cellsNumber === 81){
             cell.classList.add("ls-cell-medium");
         } else if (cellsNumber === 49) {
@@ -49,51 +49,70 @@ function createGrid () {
         }
         cell.addEventListener('click', function() {
             executeOnClick(cell);
-            cell.textContent = i + 1;
-            if (mineTrigger === false) {
-                if (blacklist.includes(parseInt(cell.textContent))) {
-                    mineTrigger = true;
-                }
-                if (mineTrigger === true) {
-                    cell.classList.add('ls-lose');
-                    
-                }
-                else {
-                      cell.classList.add('ls-blue');
-                }
-                console.log(`Il tuo punteggio è ${score}`);
-            } else {
-                console.log('hai perso');
-         };
-        });
+            cell.textContent = j + 1;
+        }, {once:true});
+        mineField.appendChild(cell);
     }
+    return cell;
+}
 };
 
 // we need to create a function to put some mines into our "mineField":
 // the AI must generate 16 random Numbers in the same range of the chosen difficulty: our mines. ATTENTION:**only one mine can be placed in a cell, so into our minesArray we need no repeated numbers.
 
-// randomizer functions:
-function generateUniqueRandomNumber (min,max,mineNumber) {
-    // this is our randomUniqueNumber
-    let randomNumber;
-    // this is our flag
-    let isFound = false;
-    let blacklist = [];
-    //while our flag is false
-    while (isFound === false) {
-        while(blacklist.length < mineNumber) {
-            //we assign to randomNumber a value between our (min,max):
-         randomNumber = getRndInteger(min,max);
-         // if our randomNumber IS NOT CONTAINED inside our blacklist is found become isfound = true
-         if (!blacklist.includes(randomNumber)) {
-            isFound = true;
-             blacklist.push(randomNumber);
-            }
+function endgame() {
+    const messageEnd = document.getElementById('result');
+    let message = `<h4>Il tuo punteggio è: ${score}</h4>`;
+    if (gameOver) {
+        gameOver = true;
+        message += 'hai perso, ritenta!';
+    } else {
+        score++;
+        messageEnd.innerHTML = '';
+        if ( score === maxscore) {
+            messageEnd.innerHTML += 'hai vinto!';
+            gameOver=true;
         }
-        return blacklist; 
     }
+}
+
+// this is our bomb generator:
+function generateBombs() {
+    let blacklist = [];
+    let counter = 0;
+    while (blacklist.length < mineNumber && counter < 100) {
+        let bomb = getRndInteger (1, cellsNumber);
+        if (!blacklist.includes(bomb)) {
+            blacklist.push(bomb);
+        }
+        counter++;
+    } 
+    console.log(blacklist);
+    return blacklist;
 };
 
+// randomized numbers function:
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
+};
+
+// this function works on the cells inside our "mineField"
+function executeOnClick() {
+    // cell.classList.add('ls-blue');
+    if (!gameOver){
+        if(blacklist.includes(cell.textContent)) {
+            cell.classList.add('ls-lose')
+            gameOver=true;
+        } else {
+            cell.classList.add('ls-blue')
+            console.log(cell.textContent);
+            score += 1;
+            console.log(score,'Punteggio');
+            if (score === maxscore) {
+                console.log('hai vinto!')
+            }
+        }
+    }
+    // we print on console the number inside the cell we 'click' into:
+    console.log(typeof cell.textContent);
 };
