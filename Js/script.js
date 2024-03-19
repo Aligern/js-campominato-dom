@@ -11,11 +11,11 @@ let maxscore = 0;
 
 // this button will make the game start:
 elBtnPlay.addEventListener('click', function() {
-    const mineField = document.getElementById("mineField");
-    mineField.innerHTML = '';
+    const mineField = document.getElementById("mineField"); // we recall from our HTML our "mineField" <div>
+    mineField.innerHTML = ''; // we reset the "mineField" to make it ready for a new "play"
    // console.log('iniziamo a giocare!');
-    const difficultySelect = document.getElementById("difficulty");
-    cellsNumber = parseInt(difficultySelect.value);
+    const difficultySelect = document.getElementById("difficulty"); // here we get the value from our "difficulty" select from our HTML
+    cellsNumber = parseInt(difficultySelect.value); // here we tell how many cells needs to be into our "mineField"
     console.log(cellsNumber);
     let bombCount = parseInt(mineNumber);
     let bomb = getRndInteger (1,cellsNumber);
@@ -27,22 +27,29 @@ elBtnPlay.addEventListener('click', function() {
 
 //we do a function to create our grid into our "mineField" container:
 function createGrid (blacklist) {
-    // this constant calls our "mineField"
+
     // here we define the number of cell we need:
     let cell;
-    // now we tell the machine how to create our cells
+
+
 //now we tell the machine how to create our cells
     for (let i = 0; i < cellsNumber; i++) {
         const cell = document.createElement("article");
+
         // here we add to our cells the classes we want to give them:
         cell.classList.add("ls-cell");
-        // with cell.textContent we are telling the machine to print sequentially the text
+
+        // here we define how many cells our "mineField" will have on the generation if the chosen difficulty is different from easy
         if (cellsNumber === 81){
             cell.classList.add("ls-cell-medium");
         } else if (cellsNumber === 49) {
             cell.classList.add("ls-cell-hard");
-        } 
+        };
+
+        // this is the call of our cells function
         cell.addEventListener('click', function() {
+
+            // with cell.textContent we are telling the machine to print sequentially the text
             cell.textContent = i + 1;
             executeOnClick(cell,blacklist);
         }, {once:true});
@@ -51,9 +58,6 @@ function createGrid (blacklist) {
     }
     return cell;
 };
-
-// we need to create a function to put some mines into our "mineField":
-// the AI must generate 16 random Numbers in the same range of the chosen difficulty: our mines. ATTENTION:**only one mine can be placed in a cell, so into our minesArray we need no repeated numbers.
 
 // function endgame() {
 //     const messageEnd = document.getElementById('result');
@@ -73,6 +77,7 @@ function createGrid (blacklist) {
 
 // this is our bomb generator:
 function generateBomb(cellsNumber, bombCount) {
+    // this is our bomb array
     let blacklist = [];
     let counter = 0;
     while (blacklist.length < bombCount && counter < 100) {
@@ -97,6 +102,7 @@ function executeOnClick(cell,blacklist) {
         if(blacklist.includes(cellsNumber)) {
             cell.classList.add('ls-lose')
             gameOver=true;
+            cell.removeEventListener('click', cellClickHandler);
         } else {
             cell.classList.add('ls-blue')
             console.log(cell.textContent);
