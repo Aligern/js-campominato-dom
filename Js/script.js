@@ -20,9 +20,9 @@ elBtnPlay.addEventListener('click', function() {
     let bombCount = parseInt(mineNumber)
     let bomb = getRndInteger (1,cellsNumber);
     console.log(bomb);
-    blacklist = generateBombs (bombCount, cellsNumber);
+    blacklist = generateBomb (bombCount, cellsNumber);
     console.log(blacklist);
-    createGrid();
+    createGrid(blacklist);
 });
 
 //we do a function to create our grid into our "mineField" container:
@@ -74,7 +74,7 @@ function endgame() {
 }
 
 // this is our bomb generator:
-function generateBombs() {
+function generateBomb() {
     let blacklist = [];
     let counter = 0;
     while (blacklist.length < mineNumber && counter < 100) {
