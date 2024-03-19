@@ -47,7 +47,7 @@ function createGrid (blacklist) {
             executeOnClick(cell,blacklist);
         }, {once:true});
         mineField.appendChild(cell);
-        console.log(cell);
+        //console.log(cell);
     }
     return cell;
 };
@@ -96,7 +96,8 @@ function executeOnClick(cell,blacklist) {
         const cellsNumber = parseInt(cell.textContent);
         if(blacklist.includes(cellsNumber)) {
             cell.classList.add('ls-lose')
-            gameOver=true;   
+            gameOver=true;
+            cell.forEach(cell => {cell.removeEventListener('click', cellClickHandler)});
         } else {
             cell.classList.add('ls-blue')
             console.log(cell.textContent);
@@ -108,5 +109,5 @@ function executeOnClick(cell,blacklist) {
         }
     }
     // we print on console the number inside the cell we 'click' into:
-    console.log(typeof cell.textContent);
+    // console.log(typeof cell.textContent);
 };
