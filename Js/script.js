@@ -26,7 +26,7 @@ elBtnPlay.addEventListener('click', function() {
 });
 
 //we do a function to create our grid into our "mineField" container:
-function createGrid () {
+function createGrid (blacklist) {
     // this constant calls our "mineField"
     // here we define the number of cell we need:
     const cellCount = 100;
@@ -46,7 +46,7 @@ function createGrid () {
             cell.classList.add("ls-cell");
         }
         cell.addEventListener('click', function() {
-            executeOnClick(cell);
+            executeOnClick(cell,blacklist);
             cell.textContent = i + 1;
         }, {once:true});
         mineField.appendChild(cell);
@@ -93,7 +93,7 @@ function getRndInteger(min, max) {
 };
 
 // this function works on the cells inside our "mineField"
-function executeOnClick(cell) {
+function executeOnClick(cell,blacklist) {
     // cell.classList.add('ls-blue');
     if (!gameOver){
         const cellsNumber = parseInt(cell.textContent);
