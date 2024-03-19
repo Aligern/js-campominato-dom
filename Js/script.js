@@ -32,10 +32,8 @@ function createGrid () {
     const cellCount = 100;
     let cell;
     // now we tell the machine how to create our cells
-    for (let i = 0; i < cellCount; i++) {
-    // 
 //now we tell the machine how to create our cells
-    for (let j = 0; j < cellsNumber; j++) {
+    for (let i = 0; i < cellsNumber; i++) {
         const cell = document.createElement("article");
         // here we add to our cells the classes we want to give them:
         cell.classList.add("ls-cell","d-flex");
@@ -49,12 +47,11 @@ function createGrid () {
         }
         cell.addEventListener('click', function() {
             executeOnClick(cell);
-            cell.textContent = j + 1;
+            cell.textContent = i + 1;
         }, {once:true});
         mineField.appendChild(cell);
     }
     return cell;
-}
 };
 
 // we need to create a function to put some mines into our "mineField":
@@ -87,7 +84,6 @@ function generateBombs() {
         }
         counter++;
     } 
-    console.log(blacklist);
     return blacklist;
 };
 
@@ -97,10 +93,11 @@ function getRndInteger(min, max) {
 };
 
 // this function works on the cells inside our "mineField"
-function executeOnClick() {
+function executeOnClick(cell) {
     // cell.classList.add('ls-blue');
     if (!gameOver){
-        if(blacklist.includes(cell.textContent)) {
+        const cellsNumber = parseInt(cell.textContent);
+        if(blacklist.includes(cellsNumber)) {
             cell.classList.add('ls-lose')
             gameOver=true;
         } else {
